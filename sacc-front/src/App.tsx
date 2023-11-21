@@ -1,24 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import SideBar from './components/Sidebar';
+import { useState } from 'react';
 
 function App() {
+
+  const [selectedMenu, setSelectedMenu] = useState<string>('Locker Stations')
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="w-screen h-screen flex">
+      <SideBar setSelectedMenu={setSelectedMenu}/>
+      {selectedMenu === 'Locker Stations' && <h1>Locker Stations</h1>}
+      {selectedMenu === 'Locker States' && <h1>Locker States</h1>}
+      {selectedMenu === 'Dashboards' && <h1>Dashboards</h1>}
+      {selectedMenu === 'Reservations' && <h1>Reservations</h1>}
     </div>
   );
 }
