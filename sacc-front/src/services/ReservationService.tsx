@@ -42,7 +42,7 @@ export async function GetReservation(id: number) {
 export async function GetReservationLog(id: number) {
     // Gets the reservation log for a given reservation id
 
-    return fetch(`${configData.SACC_URL}/reservation-state-history/get_reservation_log/?reservation_id=${id}`, {
+    return fetch(`${configData.SACC_URL}/reservation-state-history/get_reservation_log/?reservation_id=${id}/`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
