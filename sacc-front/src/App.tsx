@@ -3,6 +3,7 @@ import SideBar from "./components/Sidebar";
 import Dashboards from "./components/dashboards/Dashboards";
 import { useState } from "react";
 import ReservationsLogs from "./components/ReservationsLogs";
+import Reservations from "./components/Reservations";
 
 function App() {
   const [selectedMenu, setSelectedMenu] = useState<string>("Locker Stations");
@@ -13,7 +14,7 @@ function App() {
       {selectedMenu === "Locker Stations" && <h1>Locker Stations</h1>}
       {selectedMenu === "Locker States" && <h1>Locker States</h1>}
       {selectedMenu === "Dashboards" && <Dashboards/>}
-      {selectedMenu === "Reservations" && <h1>Reservations</h1>}
+      {selectedMenu === "Reservations" && <Reservations/>}
     </div>
   );
 }
