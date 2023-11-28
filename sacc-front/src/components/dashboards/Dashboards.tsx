@@ -87,7 +87,7 @@ function Dashboards() {
             <section className=" h-[25%]  grid grid-cols-3 gap-5">
               <div className=" h-full bg-[#ededed] rounded-lg">
                 <SimpleData
-                  value={1}
+                  value={dashboardData.pending_reservations}
                   title="Pending reservations"
                   measurement=""
                   variant="blue"
@@ -95,7 +95,7 @@ function Dashboards() {
               </div>
               <div className=" h-full bg-[#ededed] rounded-lg">
                 <SimpleData
-                  value={1}
+                  value={dashboardData.unclaimed_packages}
                   title="Unclaimed packages"
                   measurement=""
                   variant="warning"
@@ -103,7 +103,7 @@ function Dashboards() {
               </div>
               <div className="h-full bg-[#ededed] rounded-lg">
                 <SimpleData
-                  value={1}
+                  value={dashboardData.unclaimed_packages_long}
                   title="7+ Days Unclaimed Packages"
                   measurement=""
                   variant="error"
@@ -277,7 +277,7 @@ function Dashboards() {
             <section className=" h-[25%] grid grid-cols-3 gap-5">
               <div className=" h-full bg-[#ededed] rounded-lg">
                 <SimpleData
-                  value={1}
+                  value={dashboardData.average_occupancy_data.average_occupancy}
                   title="Average Occupancy"
                   measurement="%"
                   variant="regular"
@@ -285,7 +285,7 @@ function Dashboards() {
               </div>
               <div className=" h-full bg-[#ededed] rounded-lg">
                 <SimpleData
-                  value={1}
+                  value={dashboardData.average_reservation_load_time.average_confirmation_load_time}
                   title="Average Reservation-Load Time"
                   measurement="H"
                   variant="regular"
@@ -293,7 +293,7 @@ function Dashboards() {
               </div>
               <div className=" h-full bg-[#ededed] rounded-lg">
                 <SimpleData
-                  value={1}
+                  value={dashboardData.average_load_claim_time.average_confirmation_load_time}
                   title="Average Load-Claim Time"
                   measurement="H"
                   variant="regular"
