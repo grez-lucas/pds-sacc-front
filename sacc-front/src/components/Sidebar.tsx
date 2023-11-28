@@ -10,12 +10,12 @@ function Sidebar({ setSelectedMenu }: { setSelectedMenu: Function }) {
   };
 
   return (
-    <main className="w-[17%] h-full bg-blue-700">
-      <header className="w-full h-1/6 bg-blue-500 flex items-center justify-center">
+    <main className="h-screen bg-gradient-to-b from-blue-900">
+      <header className="w-full h-1/6 bg-gradient-to-b from-blue-900 flex items-center justify-center">
         <img src={logo} className="h-1/3" alt="logo" />
-        <h1 className="text-center text-white text-3xl">SACC Panel</h1>
+        <h1 className="text-center text-white text-3xl mr-3">SACC Panel</h1>
       </header>
-      <article className="h-[78%]  flex flex-col items-center justify-center gap-4">
+      <article className="h-[78%] flex flex-col items-center justify-center gap-4">
         <SidebarItem
           label="Locker Stations"
           selected={selectedItem === "Locker Stations"}
@@ -37,7 +37,7 @@ function Sidebar({ setSelectedMenu }: { setSelectedMenu: Function }) {
           onClick={handleItemClick}
         />
       </article>
-      <footer className="w-full h-[5%] bg-blue-500 flex items-center justify-end p-5">
+      <footer className="w-full h-[6%] bg-blue-500 flex items-center justify-end p-5">
         <h1 className="text-center text-white text-3xl">Settings</h1>
       </footer>
     </main>
@@ -62,7 +62,7 @@ function SidebarItem({
       onClick={() => onClick(label)}
       {...props}
     >
-      <h1 className="text-center text-white text-3xl">{label}</h1>
+      <h1 className="text-center text-white text-2xl">{label}</h1>
     </button>
   );
 }
