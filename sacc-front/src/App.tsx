@@ -1,5 +1,6 @@
 import "./App.css";
 import SideBar from "./components/Sidebar";
+import Dashboards from "./components/dashboards/Dashboards";
 import { useState } from "react";
 import ReservationsLogs from "./components/ReservationsLogs";
 import Reservations from "./components/Reservations";
@@ -12,7 +13,7 @@ function App() {
       <SideBar setSelectedMenu={setSelectedMenu} />
       {selectedMenu === "Locker Stations" && <h1>Locker Stations</h1>}
       {selectedMenu === "Locker States" && <h1>Locker States</h1>}
-      {selectedMenu === "Dashboards" && <h1>Dashboards</h1>}
+      {selectedMenu === "Dashboards" && <Dashboards/>}
       {selectedMenu === "Reservations" && <Reservations/>}
       {selectedMenu === "ReservationsLogs" && <ReservationsLogs id={1}/>}
     </div>
