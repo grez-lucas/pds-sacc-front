@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GetReservations } from "../services/ReservationService";
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import * as HeroIcons from '@heroicons/react/20/solid';
 
 interface Reservation {
   id: number;
@@ -16,6 +17,37 @@ interface Reservation {
 const Reservations: React.FC = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Dropdown menu (Cancel/Confirm)
+  const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+
+  const handleToggleDropdown = (reservationId: number) => {
+    setOpenDropdownId(openDropdownId === reservationId ? null : reservationId);
+  };
+
+  const handleConfirm = (reservationId: number) => {
+    handleToggleDropdown(0);
+    console.log('Canceling reservation:', reservationId)
+    alert(`Reservation ${reservationId} confirmed.`);
+  };
+
+  const handleCancel = (reservationId: number) => {
+    handleToggleDropdown(0);
+    console.log('Canceling reservation:', reservationId)
+    alert(`Are you sure you want to cancel reservation ${reservationId}?`);
+  };
+
+  useEffect(() => {
+    const hideDropdown = () => {
+      setOpenDropdownId(null);
+    };
+
+    const dropdownDelayTimeout = setTimeout(hideDropdown, 4000); // Cambia el valor de 500 a la cantidad de milisegundos que desees
+
+    return () => {
+      clearTimeout(dropdownDelayTimeout);
+    };
+  }, [openDropdownId]);
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -33,7 +65,7 @@ const Reservations: React.FC = () => {
   }, []);
 
   return (
-    <div className="container mx-auto bg-gradient-to-b from-blue-000">
+    <div className="container mx-auto bg-gradient-to-b from-blue-000 flex-1">
       <h1 className="text-5xl font-bold">Reservations</h1>
       {loading ? (
         <div role="status">
@@ -44,7 +76,7 @@ const Reservations: React.FC = () => {
           <span className="text-gray-900">Loading...</span>
         </div>
       ) : (
-      <table className="table-fixed min-w-full bg-white border border-gray-300 mt-4">
+      <table className="table-fixed min-w-auto bg-white border border-gray-300 mt-4">
         <thead>
           <tr>
             <th className="py-2 px-4 border-b bg-gray-500 text-white w-1/8">ID</th>
@@ -55,6 +87,7 @@ const Reservations: React.FC = () => {
             <th className="py-2 px-4 border-b bg-gray-500 text-white w-1/8">Item</th>
             <th className="py-2 px-4 border-b bg-gray-500 text-white w-1/8">Station</th>
             <th className="py-2 px-4 border-b bg-gray-500 text-white w-1/8">Operator</th>
+            <th className="py-2 px-4 border-b bg-gray-500 text-white w-1/8">Actions</th>
             <th className="py-2 px-4 border-b bg-gray-500 text-white w-1/8">Logs</th>
           </tr>
         </thead>
@@ -69,8 +102,49 @@ const Reservations: React.FC = () => {
               <td className="py-2 px-4 border-b text-center">{reservation.item}</td>
               <td className="py-2 px-4 border-b text-center">{reservation.station}</td>
               <td className="py-2 px-4 border-b text-center">{reservation.operator}</td>
-              <td>
-                {/* <Link to={`/reservationsLogs/${reservation.id}`}>Ver Logs</Link> */}
+              {/* <td>
+                <Link to={`/reservationsLogs/${reservation.id}`}>Ver Logs</Link>
+              </td> */}
+
+              <td className="py-2 px-10 border-b text-right">
+                <div className="flex justify-between">
+                  <div className="relative flex">
+                    <HeroIcons.PencilIcon
+                      className="h-5 w-5 text-gray-500 cursor-pointer"
+                      onClick={() => handleToggleDropdown(reservation.id)}
+                    />
+                    {/* <span className="ml-10 text-sm font-medium text-gray-900">Actions</span> */}
+                    {openDropdownId === reservation.id && (
+                      <div className="absolute left-5 mt-2 w-25 bg-gray-500 text-white border border-gray-200 rounded shadow-black-100 opacity-100" style={{ top: '-8px' }}>
+                        <ul className="text-sm text-gray-700 dark:text-gray-200">
+                          <li
+                            className="flex items-center px-4 py-2 hover:bg-gray-600 cursor-pointer"
+                            onClick={() => handleConfirm(reservation.id)}
+                          >
+                            <HeroIcons.CheckIcon className="h-5 w-5 text-green-500 mr-2" />
+                            Confirm
+                          </li>
+                          <li
+                            className="flex items-center px-4 py-2 hover:bg-gray-600 cursor-pointer"
+                            onClick={() => handleCancel(reservation.id)}
+                          >
+                            <HeroIcons.XCircleIcon className="h-5 w-5 text-red-500 mr-2" />
+                            Cancel
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </td>
+
+              <td className="py-2 px-4 border-b text-center">
+                <div className="flex justify-between">
+                  <HeroIcons.ClipboardDocumentListIcon
+                    className="h-5 w-5 text-blue-500 cursor-pointer"
+                    onClick={() => alert('LOGS')}
+                    />
+                </div>
               </td>
             </tr>
           ))}
