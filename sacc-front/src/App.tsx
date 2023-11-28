@@ -12,7 +12,7 @@ function App() {
       {selectedMenu === "Locker Stations" && <h1>Locker Stations</h1>}
       {selectedMenu === "Locker States" && <h1>Locker States</h1>}
       {selectedMenu === "Dashboards" && <h1>Dashboards</h1>}
-      {selectedMenu === "Reservations" && <ReservationsLogs id={1} />}
+      {selectedMenu === "Reservations" && <h1>Reservations</h1>}
     </div>
   );
 }

@@ -1,19 +1,17 @@
 import configData from "./config.json";
 
 export async function GetReservations() {
-    // Returns all reservations in the database
+  // Returns all reservations in the database
   return fetch(`${configData.SACC_URL}/reservation/`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   })
-    .then((response) => 
-       response.json()
-    )
+    .then((response) => response.json())
     .then((data) => {
-        console.log("Success:", data);
-        return data;
+      console.log("Success:", data);
+      return data;
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -27,12 +25,10 @@ export async function GetReservation(id: number) {
       "Content-Type": "application/json",
     },
   })
-    .then((response) => 
-        response.json()
-    )
+    .then((response) => response.json())
     .then((data) => {
-        console.log("Success:", data);
-        return data;
+      console.log("Success:", data);
+      return data;
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -40,22 +36,23 @@ export async function GetReservation(id: number) {
 }
 
 export async function GetReservationLog(id: number) {
-    // Gets the reservation log for a given reservation id
+  // Gets the reservation log for a given reservation id
 
-    return fetch(`${configData.SACC_URL}/reservation-state-history/get_reservation_log/?reservation_id=${id}/`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
+  return fetch(
+    `${configData.SACC_URL}/reservation-state-history/get_reservation_log/?reservation_id=${id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Success:", data);
+      return data;
     })
-        .then((response) => 
-            response.json()
-        )
-        .then((data) => {
-            console.log("Success:", data);
-            return data;
-        })
-        .catch((error) => {
-        console.error("Error:", error);
-    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 }

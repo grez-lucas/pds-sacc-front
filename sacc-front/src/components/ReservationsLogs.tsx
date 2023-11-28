@@ -23,6 +23,7 @@ function ReservationsLogs({ id }: { id: number }) {
     const fetchReservationLog = async () => {
       try {
         const data = await GetReservationLog(id);
+        console.log("Fetched reservation log:", data);
         setReservationLog(data);
       } catch (error) {
         console.error("Error fetching reservation log:", error);
