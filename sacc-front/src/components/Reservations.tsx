@@ -166,6 +166,7 @@ function Reservations({ setSelectedMenu, setSelectedReservationId }: Reservation
                     {openDropdownId === reservation.id && (
                       <div className="absolute left-5 mt-2 w-25 bg-gray-500 text-white border border-gray-200 rounded shadow-black-100 opacity-100" style={{ top: '-8px' }}>
                         <ul className="text-sm text-gray-700 dark:text-gray-200">
+                          {reservation.state === "RES" && (
                           <li
                             className="flex items-center px-4 py-2 hover:bg-gray-600 cursor-pointer"
                             onClick={() => handleConfirm(reservation.id)}
@@ -173,7 +174,7 @@ function Reservations({ setSelectedMenu, setSelectedReservationId }: Reservation
                             <HeroIcons.CheckIcon className="h-5 w-5 text-green-500 mr-2" />
                             Confirm
                           </li>
-
+                          )}
                           {reservation.state === "RES" && (
                             <li
                               className="flex items-center px-4 py-2 hover:bg-gray-600 cursor-pointer"
