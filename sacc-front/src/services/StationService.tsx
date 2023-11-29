@@ -20,9 +20,9 @@ export async function GetStations() {
     });
 }
 
-export async function GetStation(id: string ) {
+export async function GetStation(id: number) {
   // Returns all stations in the database
-return fetch(`${configData.SACC_URL}/station/${id}`, {
+return fetch(`${configData.SACC_URL}/station/${id}/`, {
   method: "GET",
   headers: {
     "Content-Type": "application/json",

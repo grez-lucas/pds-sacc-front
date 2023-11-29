@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import configData from "../services/config.json";
 import {  GetStation } from "../services/StationService";
 
@@ -25,7 +26,7 @@ const EditStation = ({ id }: { id: number }) => {
     useEffect(() => {
       const fetchStation = async () => {
         try {
-          const data = await GetStation(editedStation.id);
+          const data = await GetStation(id);
           console.log(data);
           console.log("Fetched station:", data);
           setEditedStation(data);
@@ -37,7 +38,7 @@ const EditStation = ({ id }: { id: number }) => {
       };
   
       fetchStation();
-    }, [editedStation.id]);
+    }, [id]);
   
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -70,54 +71,82 @@ const EditStation = ({ id }: { id: number }) => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <form onSubmit={handleSubmit}>
-            <label>
+            <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8">
+            <div className="mb-4">
+                <label htmlFor="thing_name" className="block text-sm font-bold text-gray-700">
                 Thing Name:
+                </label>
                 <input
                 type="text"
+                id="thing_name"
                 name="thing_name"
                 value={editedStation.thing_name}
                 onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                 />
-            </label>
-            <label>
+            </div>
+
+            <div className="mb-4">
+                <label htmlFor="shadow_name" className="block text-sm font-bold text-gray-700">
                 Shadow Name:
+                </label>
                 <input
                 type="text"
+                id="shadow_name"
                 name="shadow_name"
                 value={editedStation.shadow_name}
                 onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                 />
-            </label>
-            <label>
+            </div>
+
+            <div className="mb-4">
+                <label htmlFor="address" className="block text-sm font-bold text-gray-700">
                 Address:
+                </label>
                 <input
                 type="text"
+                id="address"
                 name="address"
                 value={editedStation.address}
                 onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                 />
-            </label>
-            <label>
+            </div>
+
+            <div className="mb-4">
+                <label htmlFor="roleARN" className="block text-sm font-bold text-gray-700">
                 Role ARN:
+                </label>
                 <input
                 type="text"
+                id="roleARN"
                 name="roleARN"
                 value={editedStation.roleARN}
                 onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                 />
-            </label>
-            <label>
+            </div>
+
+            <div className="mb-4">
+                <label htmlFor="active" className="block text-sm font-bold text-gray-700">
                 Active:
+                </label>
                 <input
-                type="text" 
+                type="text"
+                id="active"
                 name="active"
                 value={editedStation.active}
                 onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                 />
-            </label>
-          <button type="submit">Save Changes</button>
-        </form>
+            </div>
+
+            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+                Save Changes
+            </button>
+            </form>
+
           )}
         </div>
       );
