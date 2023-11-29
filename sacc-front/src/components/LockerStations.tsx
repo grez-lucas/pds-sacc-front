@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { GetStations } from "../services/StationService";
+import { DeleteStation, GetStations } from "../services/StationService";
 
 interface Station {
     id: number;
@@ -32,6 +32,21 @@ function LockerStations() {
     fetchStations();
   },);
 
+  const handleDelete = async (id: number) => {
+    try {
+        const data = await DeleteStation(8);
+        console.log(data)
+        const updatedStations = stations.filter((item) => item.id !== id);
+        setStations(updatedStations);
+      } catch (error) {
+        console.error("Error fetching reservation log:", error);
+      } finally {
+        setLoading(false);
+      }
+  };
+
+  
+
   return (
     <main className="w-[83%] h-full bg-white flex flex-col items-center">
       <div className="bg-gray-600 w-full h-12 flex items-center justify-center text-white">
@@ -57,7 +72,11 @@ function LockerStations() {
                 <tr key={item.id}>
                   <td className="border px-4 py-2">{item.address}</td>
                   <td className="border px-4 py-2">{item.active ? 'Active right now' : 'Inactive'}</td>
-                  <td className="border px-4 py-2">Botones y cosas</td>
+                  <td className="border px-4 py-2">
+                    <button onClick={() => handleDelete(item.id)}>
+                    Delete
+                    </button>
+                  </td>
 
                 </tr>
               ))}
