@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { GetReservations } from "../services/ReservationService";
-// import { Link } from 'react-router-dom';
+import { GetReservations, UpdateReservation } from "../services/ReservationService";
 import * as HeroIcons from '@heroicons/react/20/solid';
 
-interface Reservation {
+export interface ReservationData {
   id: number;
   reservation_date: string;
   expiration_date: string;
@@ -14,9 +13,20 @@ interface Reservation {
   operator: number;
 }
 
-const Reservations: React.FC = () => {
-  const [reservations, setReservations] = useState<Reservation[]>([]);
+interface ReservationsProps {
+  setSelectedMenu: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedReservationId: React.Dispatch<React.SetStateAction<number>>;
+}
+
+function Reservations({ setSelectedMenu, setSelectedReservationId }: ReservationsProps){
+  const [reservations, setReservations] = useState<ReservationData[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Logs button
+  const handleLogsClick = (reservationId: number) => {
+    setSelectedReservationId(reservationId);
+    setSelectedMenu("ReservationsLogs");
+  };
 
   // Dropdown menu (Cancel/Confirm)
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
@@ -25,16 +35,60 @@ const Reservations: React.FC = () => {
     setOpenDropdownId(openDropdownId === reservationId ? null : reservationId);
   };
 
-  const handleConfirm = (reservationId: number) => {
+  const handleConfirm = async (reservationId: number) => {
     handleToggleDropdown(0);
-    console.log('Canceling reservation:', reservationId)
+    console.log('Confirming reservation:', reservationId);
     alert(`Reservation ${reservationId} confirmed.`);
+
+    const updatedData = {
+      id: reservationId,
+      reservation_date: "2023-11-24T20:03:20.740573Z",
+      expiration_date: "2023-12-10T01:47:00Z",
+      state: "CON",
+      locker_slot: 1,
+      item: 7,
+      station: 1,
+      operator: 4
+    };
+
+    try {
+      await UpdateReservation(reservationId, updatedData);
+      setReservations(prevReservations =>
+        prevReservations.map(reservation =>
+          reservation.id === reservationId ? { ...reservation, state: "CON" } : reservation
+        )
+      );
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
-  const handleCancel = (reservationId: number) => {
+  const handleCancel = async (reservationId: number) => {
     handleToggleDropdown(0);
-    console.log('Canceling reservation:', reservationId)
+    console.log('Canceling reservation:', reservationId);
     alert(`Are you sure you want to cancel reservation ${reservationId}?`);
+
+    const updatedData = {
+      id: reservationId,
+      reservation_date: "2023-11-24T20:03:20.740573Z",
+      expiration_date: "2023-12-10T01:47:00Z",
+      state: "CAN",
+      locker_slot: 1,
+      item: 7,
+      station: 1,
+      operator: 4
+    };
+
+    try {
+      await UpdateReservation(reservationId, updatedData);
+      setReservations(prevReservations =>
+        prevReservations.map(reservation =>
+          reservation.id === reservationId ? { ...reservation, state: "CAN" } : reservation
+        )
+      );
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   useEffect(() => {
@@ -42,7 +96,7 @@ const Reservations: React.FC = () => {
       setOpenDropdownId(null);
     };
 
-    const dropdownDelayTimeout = setTimeout(hideDropdown, 4000); // Cambia el valor de 500 a la cantidad de milisegundos que desees
+    const dropdownDelayTimeout = setTimeout(hideDropdown, 4000);
 
     return () => {
       clearTimeout(dropdownDelayTimeout);
@@ -102,10 +156,6 @@ const Reservations: React.FC = () => {
               <td className="py-2 px-4 border-b text-center">{reservation.item}</td>
               <td className="py-2 px-4 border-b text-center">{reservation.station}</td>
               <td className="py-2 px-4 border-b text-center">{reservation.operator}</td>
-              {/* <td>
-                <Link to={`/reservationsLogs/${reservation.id}`}>Ver Logs</Link>
-              </td> */}
-
               <td className="py-2 px-10 border-b text-right">
                 <div className="flex justify-between">
                   <div className="relative flex">
@@ -113,7 +163,6 @@ const Reservations: React.FC = () => {
                       className="h-5 w-5 text-gray-500 cursor-pointer"
                       onClick={() => handleToggleDropdown(reservation.id)}
                     />
-                    {/* <span className="ml-10 text-sm font-medium text-gray-900">Actions</span> */}
                     {openDropdownId === reservation.id && (
                       <div className="absolute left-5 mt-2 w-25 bg-gray-500 text-white border border-gray-200 rounded shadow-black-100 opacity-100" style={{ top: '-8px' }}>
                         <ul className="text-sm text-gray-700 dark:text-gray-200">
@@ -124,13 +173,16 @@ const Reservations: React.FC = () => {
                             <HeroIcons.CheckIcon className="h-5 w-5 text-green-500 mr-2" />
                             Confirm
                           </li>
-                          <li
-                            className="flex items-center px-4 py-2 hover:bg-gray-600 cursor-pointer"
-                            onClick={() => handleCancel(reservation.id)}
-                          >
-                            <HeroIcons.XCircleIcon className="h-5 w-5 text-red-500 mr-2" />
-                            Cancel
-                          </li>
+
+                          {reservation.state === "RES" && (
+                            <li
+                              className="flex items-center px-4 py-2 hover:bg-gray-600 cursor-pointer"
+                              onClick={() => handleCancel(reservation.id)}
+                            >
+                              <HeroIcons.XCircleIcon className="h-5 w-5 text-red-500 mr-2" />
+                              Cancel
+                            </li>
+                          )}
                         </ul>
                       </div>
                     )}
@@ -142,7 +194,7 @@ const Reservations: React.FC = () => {
                 <div className="flex justify-between">
                   <HeroIcons.ClipboardDocumentListIcon
                     className="h-5 w-5 text-blue-500 cursor-pointer"
-                    onClick={() => alert('LOGS')}
+                    onClick={() => handleLogsClick(reservation.id)}
                     />
                 </div>
               </td>

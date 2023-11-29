@@ -1,4 +1,5 @@
 import configData from "./config.json";
+import {ReservationData} from "../components/Reservations";
 
 export async function GetReservations() {
   // Returns all reservations in the database
@@ -47,6 +48,25 @@ export async function GetReservationLog(id: number) {
       },
     }
   )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Success:", data);
+      return data;
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+export async function UpdateReservation(id: number, updatedData: ReservationData) {
+  // Updates a reservation in the API with the provided data
+  return fetch(`${configData.SACC_URL}/reservation/${id}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedData),
+  })
     .then((response) => response.json())
     .then((data) => {
       console.log("Success:", data);
