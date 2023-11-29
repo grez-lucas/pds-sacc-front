@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # checkout the repository content to github runner
+      - name: Checkout
+        uses: actions/checkout@v2
+
       # Clean up node_modules and package-lock.json file
       - name: Clean up node_modules and package-lock.json file
         run: |
@@ -25,10 +29,6 @@ jobs:
       # install a specific version of npm
       - name: Install npm
         run: npm install -g npm@6
-
-      # checkout the repository content to github runner
-      - name: Checkout
-        uses: actions/checkout@v2
 
       # navigate into the react app directory
       - name: Change directory and Install dependencies
