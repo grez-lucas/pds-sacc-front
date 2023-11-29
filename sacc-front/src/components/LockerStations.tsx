@@ -11,7 +11,12 @@ interface Station {
     // Add other properties as needed
   }
 
-function LockerStations() {
+  interface LockerProps {
+    selectedStationId: React.Dispatch<React.SetStateAction<number>>;
+    setSelectedMenu: React.Dispatch<React.SetStateAction<string>>;
+  }
+
+function LockerStations({ selectedStationId,setSelectedMenu }: LockerProps) {
   const [stations, setStations] = useState<Station[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -45,6 +50,11 @@ function LockerStations() {
       }
   };
 
+  const handleEditClick = (id: number) => {
+    selectedStationId(id);
+    setSelectedMenu("Edit Locker Stations");
+  };
+
   
 
   return (
@@ -73,8 +83,17 @@ function LockerStations() {
                   <td className="border px-4 py-2">{item.address}</td>
                   <td className="border px-4 py-2">{item.active ? 'Active right now' : 'Inactive'}</td>
                   <td className="border px-4 py-2">
-                    <button onClick={() => handleDelete(item.id)}>
-                    Delete
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="bg-red-500 text-white px-3 py-1 mr-2"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() => handleEditClick(item.id)}
+                      className="bg-blue-500 text-white px-3 py-1"
+                    >
+                      Edit
                     </button>
                   </td>
 
