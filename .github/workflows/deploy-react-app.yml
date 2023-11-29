@@ -19,7 +19,8 @@ jobs:
         run: |
           cd sacc-front
           npm install -g npm@latest
-          npm i
+          npm cache clean --force
+          npm --verbose install
 
       # setup Node.js and npm
       - name: Setup Node.js and npm
