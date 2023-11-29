@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { GetReservations } from "../services/ReservationService";
-// import { Link } from 'react-router-dom';
+import { GetReservations, UpdateReservation } from "../services/ReservationService";
 import * as HeroIcons from '@heroicons/react/20/solid';
 
-interface Reservation {
+export interface ReservationData {
   id: number;
   reservation_date: string;
   expiration_date: string;
@@ -20,7 +19,7 @@ interface ReservationsProps {
 }
 
 function Reservations({ setSelectedMenu, setSelectedReservationId }: ReservationsProps){
-  const [reservations, setReservations] = useState<Reservation[]>([]);
+  const [reservations, setReservations] = useState<ReservationData[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Logs button
@@ -36,16 +35,60 @@ function Reservations({ setSelectedMenu, setSelectedReservationId }: Reservation
     setOpenDropdownId(openDropdownId === reservationId ? null : reservationId);
   };
 
-  const handleConfirm = (reservationId: number) => {
+  const handleConfirm = async (reservationId: number) => {
     handleToggleDropdown(0);
-    console.log('Canceling reservation:', reservationId)
+    console.log('Confirming reservation:', reservationId);
     alert(`Reservation ${reservationId} confirmed.`);
+
+    const updatedData = {
+      id: reservationId,
+      reservation_date: "2023-11-24T20:03:20.740573Z",
+      expiration_date: "2023-12-10T01:47:00Z",
+      state: "CON",
+      locker_slot: 1,
+      item: 7,
+      station: 1,
+      operator: 4
+    };
+
+    try {
+      await UpdateReservation(reservationId, updatedData);
+      setReservations(prevReservations =>
+        prevReservations.map(reservation =>
+          reservation.id === reservationId ? { ...reservation, state: "CON" } : reservation
+        )
+      );
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
-  const handleCancel = (reservationId: number) => {
+  const handleCancel = async (reservationId: number) => {
     handleToggleDropdown(0);
-    console.log('Canceling reservation:', reservationId)
+    console.log('Canceling reservation:', reservationId);
     alert(`Are you sure you want to cancel reservation ${reservationId}?`);
+
+    const updatedData = {
+      id: reservationId,
+      reservation_date: "2023-11-24T20:03:20.740573Z",
+      expiration_date: "2023-12-10T01:47:00Z",
+      state: "CAN",
+      locker_slot: 1,
+      item: 7,
+      station: 1,
+      operator: 4
+    };
+
+    try {
+      await UpdateReservation(reservationId, updatedData);
+      setReservations(prevReservations =>
+        prevReservations.map(reservation =>
+          reservation.id === reservationId ? { ...reservation, state: "CAN" } : reservation
+        )
+      );
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   useEffect(() => {
@@ -130,13 +173,16 @@ function Reservations({ setSelectedMenu, setSelectedReservationId }: Reservation
                             <HeroIcons.CheckIcon className="h-5 w-5 text-green-500 mr-2" />
                             Confirm
                           </li>
-                          <li
-                            className="flex items-center px-4 py-2 hover:bg-gray-600 cursor-pointer"
-                            onClick={() => handleCancel(reservation.id)}
-                          >
-                            <HeroIcons.XCircleIcon className="h-5 w-5 text-red-500 mr-2" />
-                            Cancel
-                          </li>
+
+                          {reservation.state === "RES" && (
+                            <li
+                              className="flex items-center px-4 py-2 hover:bg-gray-600 cursor-pointer"
+                              onClick={() => handleCancel(reservation.id)}
+                            >
+                              <HeroIcons.XCircleIcon className="h-5 w-5 text-red-500 mr-2" />
+                              Cancel
+                            </li>
+                          )}
                         </ul>
                       </div>
                     )}
