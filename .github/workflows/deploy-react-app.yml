@@ -11,6 +11,8 @@ jobs:
 
 
     steps:
+      - name: Change directory
+        run: cd sacc-front
       # checkout the repository content to github runner
       - name: Checkout
         uses: actions/checkout@v2
