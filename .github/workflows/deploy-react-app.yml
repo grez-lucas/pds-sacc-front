@@ -34,15 +34,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      # install dependencies
-      - name: Install dependencies
-        run: npm i
-        working-directory: ./sacc-front
-
-      # build the react app
-      - name: Build
-        run: npm run build
-        working-directory: ./sacc-front
+      # install dependencies and build the react app
+      - name: Install and Build
+        run: |
+          npm i
+          npm run build
+        working-directory: sacc-front
 
 
       # deploy the react app to github pages
