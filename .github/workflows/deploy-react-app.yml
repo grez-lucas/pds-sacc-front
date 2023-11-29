@@ -17,7 +17,7 @@ jobs:
 
         # navigate into the react app directory
       - name: Change directory
-        run: cd pds-sacc-front
+        run: cd sacc-front
 
       # setup nodejs environment
       - name: Setup Node.js environment
