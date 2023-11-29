@@ -11,11 +11,13 @@ jobs:
 
 
     steps:
-      - name: Change directory
-        run: cd sacc-front
       # checkout the repository content to github runner
       - name: Checkout
         uses: actions/checkout@v2
+
+        # navigate into the react app directory
+      - name: Change directory
+        run: cd pds-sacc-front
 
       # setup nodejs environment
       - name: Setup Node.js environment
