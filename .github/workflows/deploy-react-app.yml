@@ -26,15 +26,6 @@ jobs:
       - name: Install npm
         run: npm install -g npm@6
 
-      # cache the dependencies to speed up the build
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
       # checkout the repository content to github runner
       - name: Checkout
         uses: actions/checkout@v2
