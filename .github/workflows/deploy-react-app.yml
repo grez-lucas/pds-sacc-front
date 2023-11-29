@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Clean up node_modules and package-lock.json file
+      - name: Clean up node_modules and package-lock.json file
+        run: |
+            rm -rf node_modules
+            rm -f package-lock.json
 
       # setup Node.js environment
       - name: Setup Node.js environment
