@@ -9,19 +9,23 @@ jobs:
   deploy-react-to-gh-pages:
     runs-on: ubuntu-latest
 
-
     steps:
-    
       # checkout the repository content to github runner
       - name: Checkout
         uses: actions/checkout@v2
 
-        # setup node.js and npm
+      # navigate into the react app directory
+      - name: Change directory and Install dependencies
+        run: |
+          cd sacc-front
+          npm install -g npm@latest
+          npm i
+
+      # setup Node.js and npm
       - name: Setup Node.js and npm
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-      
 
       # cache the dependencies to speed up the build
       - name: Cache dependencies
@@ -31,10 +35,6 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-
-      # install dependencies
-      - name: Install dependencies
-        run: cd sacc-front && npm i
 
       # build the react app
       - name: Build
