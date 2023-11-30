@@ -59,10 +59,10 @@ function LockerStatus() {
   return (
     <main className="w-[83%] h-full bg-white flex flex-col items-center">
       <div className="bg-gray-600 w-full h-12 flex items-center justify-center text-white">
-        Locker Stations
+        Locker States
       </div>
       <div className="bg-gray-600 w-500 h-12 flex items-center justify-center text-white mt-10">
-        Select Locker
+        <h2>Lockers</h2>
       </div>
       <div className="flex justify-center mt-4">
         {loading ? (
