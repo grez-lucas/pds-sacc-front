@@ -14,12 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # Clean up node_modules and package-lock.json file
-      - name: Clean up node_modules and package-lock.json file
-        run: |
-            rm -rf node_modules
-            rm -f package-lock.json
-
       # setup Node.js environment
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.5
