@@ -11,7 +11,7 @@ interface Station {
 }
 
 interface Locker {
-  OccupiedPhysycal: boolean;
+  OccupiedPhysical: boolean;
   OccupiedVirtual: boolean;
   ReservationState: string;
   Client: string;
@@ -47,7 +47,13 @@ function LockerStatus() {
       const data = await GetLockerStates(id);
       console.log(data);
       console.log("Fetched locker states:", data);
-      setLockers(data.slots);
+  
+      // Check if data.slots is an object, convert it to an array
+      const slotsArray = Array.isArray(data.slots)
+        ? data.slots
+        : Object.values(data.slots);
+  
+      setLockers(slotsArray);
       setSelectedStation(id);
     } catch (error) {
       console.error("Error fetching locker states:", error);
@@ -102,7 +108,7 @@ function LockerStatus() {
               <tbody>
                 {lockers?.map((locker, index) => (
                   <tr key={index}>
-                    <td className="border px-4 py-2">{locker.OccupiedPhysycal.toString()}</td>
+                    <td className="border px-4 py-2">{locker.OccupiedPhysical.toString()}</td>
                     <td className="border px-4 py-2">{locker.OccupiedVirtual.toString()}</td>
                     <td className="border px-4 py-2">{locker.ReservationState}</td>
                     <td className="border px-4 py-2">{locker.Client}</td>
