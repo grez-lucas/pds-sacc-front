@@ -5,7 +5,8 @@ import { useState } from "react";
 import ReservationsLogs from "./components/ReservationsLogs";
 import Reservations from "./components/Reservations";
 import LockerStations from "./components/LockerStations";
-import EditStations from "./components/LockerStationsEdit"
+import EditStations from "./components/LockerStationsEdit";
+import LockerStatus from "./components/LockerStatus"
 
 function App() {
   const [selectedMenu, setSelectedMenu] = useState("Locker Stations");
@@ -21,7 +22,7 @@ function App() {
           setSelectedMenu={setSelectedMenu}/>
           )}
       {selectedMenu === "Edit Locker Stations" && <EditStations id={selectedStationId} />}
-      {selectedMenu === "Locker States" && <h1>Locker States</h1>}
+      {selectedMenu === "Locker States" && <LockerStatus/>}
       {selectedMenu === "Dashboards" && <Dashboards />}
       {selectedMenu === "Reservations" && (
         <Reservations
