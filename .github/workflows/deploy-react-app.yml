@@ -26,10 +26,10 @@ jobs:
         with:
           node-version: '20.5.1'
 
-      # install a specific version of npm
-      - name: Install npm
-        run: npm install -g npm@9.8.0
-
+      
+      - name: Clean npm cache
+        run: npm cache clean --force
+      
       # navigate into the react app directory
       - name: Change directory and Install dependencies
         run: |
