@@ -1,5 +1,6 @@
 {
   "name": "sacc-front",
+  "homepage": "https://grez-lucas.github.io/pds-sacc-front",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
